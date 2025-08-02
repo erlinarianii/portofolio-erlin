@@ -11,12 +11,10 @@ import Work from './components/Work'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import Navbar from './components/Nabvar'
-import { Button } from "@/components/ui/button"
 
 const HomePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white text-gray-800">
-      
      <Navbar />
       <Header />
       <About />

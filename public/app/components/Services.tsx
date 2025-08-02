@@ -1,0 +1,73 @@
+'use client'
+import React from 'react'
+import Image, { StaticImageData } from 'next/image'
+
+// Import icon satu per satu
+import frontendIcon from '@/app/assets/web-icon.png'
+import uiuxIcon from '@/app/assets/mobile-icon.png'
+import figmaIcon from '@/app/assets/ui-icon.png'
+import mentoringIcon from '@/app/assets/graphics-icon.png'
+import rightArrow from '@/app/assets/right-arrow.png'
+type Service = {
+  icon: StaticImageData;
+  title: string;
+  description: string;
+  link: string;
+}
+
+const serviceData: Service[] = [
+  {
+    icon: frontendIcon,
+    title: 'Frontend Development',
+    description: 'Create responsive websites using HTML, CSS, JS, React, and Tailwind CSS.',
+    link: '#work'
+  },
+  {
+    icon: uiuxIcon,
+    title: 'UI/UX Design',
+    description: 'Designing clean and user-friendly interfaces using Figma.',
+    link: '#about'
+  },
+  {
+    icon: figmaIcon,
+    title: 'Prototyping',
+    description: 'Turn ideas into visual and interactive prototypes for presentation.',
+    link: '#about'
+  },
+  {
+    icon: mentoringIcon,
+    title: 'Mentoring',
+    description: 'Sharing basic web development knowledge with peers and juniors.',
+    link: '#contact'
+  }
+]
+
+const Services: React.FC = () => {
+  return (
+    <div id='services' className='w-full px-[12%] py-10 scroll-mt-20 bg-white text-gray-800'>
+      <h4 className='text-center mb-2 text-lg font-Outfit text-gray-600'>What I offer</h4>
+      <h2 className='text-center text-5xl font-Outfit'>My Services</h2>
+
+      <p className='text-center max-w-2xl mx-auto mt-5 mb-12 font-Outfit text-gray-600'>
+        I am a vocational high school student learning to become a
+        frontend developer. I enjoy building simple websites 
+        and I’m always learning to get better at coding.
+      </p>
+
+      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 my-10'>
+        {serviceData.map(({ icon, title, description, link }, index) => (
+          <div key={index} className='border border-gray-400 rounded-lg px-8 py-12 hover:shadow-[4px_4px_0px_#000000] cursor-pointer hover:bg-violet-100 hover:-translate-y-1 duration-500'>
+            <Image src={icon} alt={title} className='w-10' />
+            <h3 className='text-lg my-4 text-gray-700'>{title}</h3>
+            <p className='text-sm text-gray-600 leading-5'>{description}</p>
+            <a href={link} className='flex items-center gap-2 text-sm mt-5'>
+              Read more <Image src={rightArrow} alt='arrow' className='w-4' />
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+export default Services
