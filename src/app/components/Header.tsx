@@ -6,6 +6,7 @@ import handIcon from '@/app/assets/hand-icon.png'
 import rightArrowWhite from '@/app/assets/right-arrow-white.png'
 import { DownloadIcon } from '@radix-ui/react-icons'
 
+
 const Header: React.FC = () => {
   return (
     <div id='home' className="w-full min-h-screen text-slate-700 dark:text-white dark:bg-slate-800 flex flex-col items-center justify-center gap-4">
@@ -24,7 +25,7 @@ const Header: React.FC = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 mt-6">
-          <a href="/CV-Erlin Ariani.pdf" download className="px-10 py-3 border border-gray-400 rounded-full font-Outfit hover:bg-gray-700 transition-colors">
+          <a href="/CV-Erlin-Ariani.pdf" download className="px-10 py-3 border border-gray-400 rounded-full font-Outfit hover:bg-gray-700 transition-colors">
             My CV <DownloadIcon className="inline size-5 ml-1 text-gray-700 dark:text-white" />
           </a>
           <a href="#contact" className="px-10 py-3 bg-black text-white rounded-full font-Outfit hover:opacity-90 flex items-center justify-center gap-2 transition-opacity">
