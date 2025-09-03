@@ -1,28 +1,64 @@
-import { getPosts, getCategories } from "@/lib/api";
+import type { Metadata } from "next";
+import { getPosts, getCategories, type Post, type Category } from "@/lib/api";
 import PostCard from "@/app/components/PostCard";
+import CategoryPills from "@/app/components/CategoryPills";
 
-type Params = { params: { slug: string } };
+type PageProps = {
+  params: Promise<{ slug: string }>;
+  searchParams?: Promise<Record<string, string | string[]>>;
+};
 
-export async function generateStaticParams() {
-  // opsional: prebuild kategori
-  const cats = await getCategories().catch(() => []);
-  return cats.map(c => ({ slug: c.slug }));
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params; 
+  return {
+    title: `${slug} — Blog Category`,
+    description: `Posts under the "${slug}" category.`,
+  };
 }
 
-export default async function CategoryPage({ params }: Params) {
-  const [cats, posts] = await Promise.all([getCategories(), getPosts(undefined, params.slug)]);
-  const cat = cats.find(c => c.slug === params.slug);
+export default async function CategoryPage({ params }: PageProps) {
+  const { slug } = await params; 
+
+  const [posts, categories]: [Post[], Category[]] = await Promise.all([
+    getPosts(undefined, slug), 
+    getCategories(),
+  ]);
+
+  const catPills = [
+    { name: "All", slug: "all", count: posts.length, href: "/blog" },
+    ...categories.map((c) => ({
+      name: c.name,
+      slug: c.slug,
+      count: c.count,
+      href: `/blog?category=${encodeURIComponent(c.slug)}`,
+    })),
+  ];
 
   return (
-    <main className="w-full bg-white dark:bg-slate-800">
-      <div className="container mx-auto px-6 py-12">
-        <h1 className="text-3xl font-bold">
-          {cat ? cat.name : "Category"} <span className="text-slate-500 bg-gray-600 dark:text-slate-300">({posts.length})</span>
+    <main className="min-h-screen pt-28 bg-white dark:bg-slate-800">
+      <header className="max-w-6xl mx-auto px-6 pt-8 pb-4">
+        <h1 className="text-3xl font-bold text-slate-800 dark:text-white tracking-tight">
+          Category: {slug}
         </h1>
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {posts.map(p => <PostCard key={p.slug} post={p} />)}
+        <p className="mt-1 text-slate-600 dark:text-slate-300">
+          Explore posts by category or browse all.
+        </p>
+        <div className="mt-4">
+          <CategoryPills items={catPills} />
         </div>
-      </div>
+      </header>
+
+      <section className="max-w-6xl mx-auto px-6 my-10">
+        {posts.length === 0 ? (
+          <p className="text-slate-600 dark:text-slate-300">no blog yet</p>
+        ) : (
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {posts.map((p) => (
+              <PostCard key={p.slug} post={p} />
+            ))}
+          </div>
+        )}
+      </section>
     </main>
   );
 }
