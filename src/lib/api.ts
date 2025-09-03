@@ -52,9 +52,6 @@ function asBoolean(v: unknown): boolean | undefined {
   if (v === "0" || v === 0 || v === "false") return false;
   return undefined;
 }
-function asArray(v: unknown): unknown[] {
-  return Array.isArray(v) ? v : [];
-}
 
 // ---------- Utilities ----------
 function tryDecode(v: string): string {
