@@ -9,7 +9,7 @@ import { DownloadIcon } from '@radix-ui/react-icons'
 
 const Header: React.FC = () => {
   return (
-    <div id='home' className="w-full min-h-screen text-slate-700 dark:text-white dark:bg-slate-800 flex flex-col items-center justify-center gap-4">
+    <div id='home' className="w-full min-h-screen text-slate-900 dark:text-white dark:bg-slate-800 flex flex-col items-center justify-center gap-4">
       <div className="w-11/12 max-w-3xl text-center mx-auto flex flex-col items-center justify-center gap-4">
         <Image src={profileImg} alt="Profile" className="rounded-full w-36" />
 

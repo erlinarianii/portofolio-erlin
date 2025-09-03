@@ -1,70 +1,180 @@
-'use client'
-import logo from '@/app/assets/logo.png'
-import Image from 'next/image'
-import React, { useEffect, useRef, useState } from 'react'
-import { TextAlignRightIcon } from '@radix-ui/react-icons'
-import { Cross1Icon } from '@radix-ui/react-icons'
-import { ArrowTopRightIcon } from '@radix-ui/react-icons'
-import { ModeToggle } from './mode-toggle' 
+'use client';
 
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
+import { TextAlignRightIcon, Cross1Icon, ArrowTopRightIcon } from '@radix-ui/react-icons';
+import { ModeToggle } from './mode-toggle';
+import logo from '@/app/assets/logo.png';
+import { usePathname, useRouter } from 'next/navigation';
+import clsx from 'clsx';
 
+type NavItem = { name: string; href: string };
+
+const navigationItems: NavItem[] = [
+  { name: 'Home',     href: '/' },
+  { name: 'About',    href: '#about' },
+  { name: 'Services', href: '#services' },
+  { name: 'Work',     href: '#work' },
+  { name: 'Blog',     href: '#blog' },
+  { name: 'Contact',  href: '#contact' },
+];
 
 const Navbar: React.FC = () => {
-  const [isScroll, setIsScroll] = useState(false)
-  const sideMenuRef = useRef<HTMLUListElement>(null)
+  const router = useRouter();
+  const pathname = usePathname();
+  const [isScroll, setIsScroll] = useState(false);
+  const [open, setOpen] = useState(false);
 
-  const openMenu = () => {
-    if (sideMenuRef.current) {
-      sideMenuRef.current.style.transform = 'translateX(-16rem)'
-    }
-  }
-
-  const closeMenu = () => {
-    if (sideMenuRef.current) {
-      sideMenuRef.current.style.transform = 'translateX(16rem)'
-    }
-  }
-
+  // Background navbar saat scroll
   useEffect(() => {
-    const handleScroll = () => setIsScroll(window.scrollY > 50)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+    const handleScroll = () => setIsScroll(window.scrollY > 50);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Tutup panel dengan tombol Escape
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [open]);
+
+  const closeMenu = () => setOpen(false);
+
+  // Navigasi konsisten untuk anchor homepage
+  const handleNavClick = (href: string) => {
+    setOpen(false);
+    if (href.startsWith('#')) { router.push('/' + href); return; }
+    if (href.startsWith('/#')) { router.push(href); return; }
+    router.push(href);
+  };
 
   return (
-    <nav className={`fixed w-full px-5 lg:px-8 xl:px-[8%] dark:text-white py-4 flex items-center justify-between z-50 transition duration-300 ${isScroll ? 'bg-white/80 shadow-sm dark:bg-slate-700/80 dark:shadow-sm' : 'bg-white dark:bg-slate-700'}`}>
-      <a href="#top">
-        <Image src={logo} alt="Logo" className="w-12 cursor-pointer" />
-      </a>
-
-      <ul className="hidden md:flex items-center gap-8 bg-white/90 dark:bg-slate-700 dark:text-white px-8 py-3  rounded-full shadow-sm">
-        <li><a className="text-gray-800 dark:text-white font-Outfit" href="#home">Home</a></li>
-        <li><a className="text-gray-800 dark:text-white font-Outfit" href="#about">About</a></li>
-        <li><a className="text-gray-800 dark:text-white font-Outfit" href="#services">Services</a></li>
-        <li><a className="text-gray-800 dark:text-white font-Outfit" href="#work">Work</a></li>
-        <li><a className="text-gray-800 dark:text-white font-Outfit" href="#contact">Contact</a></li>
-      </ul>
- 
-      <div className="flex items-center gap-4">
-        <ModeToggle />
-        <a href="#contact" className="hidden lg:flex items-center gap-2 border border-gray-400 dark:text-white text-gray-800  px-6 py-2 rounded-full font-Outfit hover:bg-slate-600 transition">
-          Contact <ArrowTopRightIcon className="size-5 dark:text-white text-slate-700 " />
-        </a>
-        <button onClick={openMenu} className="block md:hidden">
-          <TextAlignRightIcon  className='text-slate-600 size-8 dark:text-white'/>
+    <>
+      <nav
+        className={clsx(
+          // baseline utama
+          'fixed inset-x-0 top-0 z-50 border-b border-border bg-white/70 dark:bg-slate-900/70 backdrop-blur-sm',
+          // layout & spacing
+          'px-5 lg:px-8 xl:px-[8%] py-4 flex items-center justify-between',
+          // transisi & warna teks
+          'transition-colors duration-300 text-slate-900 dark:text-white',
+          // efek saat scroll (opsional)
+          isScroll && 'shadow-sm'
+        )}
+      >
+        {/* Logo */}
+        <button
+          onClick={() => handleNavClick('/')}
+          aria-label="Home"
+          className="flex items-center"
+          type="button"
+        >
+          <Image
+            src={logo}
+            alt="Logo"
+            width={48}
+            height={48}
+            priority
+            className="w-12 h-12 object-contain"
+          />
         </button>
-      </div>
 
-      <ul ref={sideMenuRef} className="fixed top-0 bottom-0 right-0 w-64  dark:bg-slate-700 dark:text-white bg-white py-20 px-10 flex flex-col gap-4 transition duration-500 transform translate-x-64 z-50 shadow-xl">
-        <div className="absolute top-6 right-6 cursor-pointer" onClick={closeMenu}>
-          <Cross1Icon  className='text-slate-600 size-7 dark:text-white'/>
+        {/* Desktop Navigation */}
+        <ul className="hidden md:flex items-center gap-8 bg-white/90 dark:bg-slate-700/80 text-slate-900 dark:text-white px-8 py-3 rounded-full shadow-sm">
+          {navigationItems.map((item) => (
+            <li key={item.name}>
+              <button
+                type="button"
+                onClick={() => handleNavClick(item.href)}
+                className="px-3 py-2 text-gray-800 dark:text-white font-Outfit hover:text-blue-900 dark:hover:text-blue-400 transition-colors"
+                aria-current={
+                  pathname === '/' && item.href.startsWith('/#')
+                    ? 'page'
+                    : pathname === item.href
+                    ? 'page'
+                    : undefined
+                }
+              >
+                {item.name}
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        {/* Right side */}
+        <div className="flex items-center gap-4">
+          <ModeToggle />
+          <button
+            type="button"
+            onClick={() => handleNavClick('/#contact')}
+            className="hidden lg:flex items-center gap-2 border border-gray-400 text-gray-800  dark:text-white px-6 py-2 rounded-full font-Outfit hover:bg-slate-100 dark:hover:bg-slate-700 transition"
+          >
+            Contact <ArrowTopRightIcon className="size-5 text-slate-700 dark:text-white" />
+          </button>
+          {/* hamburger */}
+          <button
+            className="md:hidden p-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-700"
+            onClick={() => setOpen(true)}
+            aria-label="Open menu"
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            type="button"
+          >
+            <TextAlignRightIcon className="h-7 w-7 text-slate-700  dark:text-white" />
+          </button>
         </div>
-        {['Home', 'About', 'Services', 'Work', 'Contact'].map((text, i) => (
-          <li key={i}><a className="text-gray-800 font-Outfit dark:text-white" href={`#${text.toLowerCase()}`} onClick={closeMenu}>{text}</a></li>
-        ))}
-      </ul>
-    </nav>
-  )
-}
+      </nav>
 
-export default Navbar
+      {/* overlay */}
+      {open && (
+        <div
+          className="fixed inset-0 z-40 bg-black/40 md:hidden"
+          onClick={closeMenu}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* panel */}
+      <aside
+        id="mobile-menu"
+        className={clsx(
+          'fixed z-50 inset-y-0 right-0 w-72 bg-white dark:bg-slate-900 p-6 md:hidden transition-transform duration-300',
+          open ? 'translate-x-0' : 'translate-x-full'
+        )}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Mobile navigation"
+      >
+        <button
+          className="absolute top-4 right-4 p-2 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800"
+          onClick={closeMenu}
+          aria-label="Close menu"
+          type="button"
+        >
+          <Cross1Icon className="h-5 w-5" />
+        </button>
+
+        <ul className="mt-8 space-y-4">
+          {navigationItems.map((item) => (
+            <li key={item.name}>
+              <button
+                type="button"
+                onClick={() => handleNavClick(item.href)}
+                className="block w-full text-left py-2  text-slate-900 dark:text-white font-Outfit hover:text-purple-600 dark:hover:text-purple-400 transition-colors"
+              >
+                {item.name}
+              </button>
+            </li>
+          ))}
+        </ul>
+      </aside>
+    </>
+  );
+};
+
+export default Navbar;

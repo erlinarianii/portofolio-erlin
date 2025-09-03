@@ -1,80 +1,108 @@
 'use client'
-import React from 'react'
 import Image, { StaticImageData } from 'next/image'
-import sendIcon from '@/app/assets/send-icon.png'
-import rightArrowBold from '@/app/assets/right-arrow-bold.png'
+import Link from 'next/link'
+import React from 'react'
 import project1 from '@/app/assets/public/work-1.png'
 import project2 from '@/app/assets/public/work-2.png'
 import project3 from '@/app/assets/public/work-3.png'
 import project4 from '@/app/assets/public/work-4.png'
 
-type Work = {
-  title: string;
-  description: string;
-  bgImage: StaticImageData;
+type Project = {
+  title: string
+  period?: string
+  description: string
+  tags: string[]
+  image: StaticImageData
+  website: string
 }
 
-const workData: Work[] = [
+const projects: Project[] = [
   {
-    title: 'Department Website',
-    description: 'Responsive website built with React & Tailwind.',
-    bgImage: project1,
-    // link: 'https://web-profile-tkj.netlify.app/',
+    title: 'Departement Website',
+    description: 'A platform for freelancers and clients to collaborate and find jobs with helpful filters.',
+    tags: ['React JS', 'Tailwind.css'],
+    image: project1,
+    website: 'https://web-profile-tkj.netlify.app/'
   },
   {
-    title: 'Landing Page',
-    description: 'Modern and minimalist landing page.',
-    bgImage: project2,
-    // link: 'https://67ab133e456c5f95b0a2f384--vermillion-kelpie-1e3f99.netlify.app/',
+    title: 'Simpel Landing Page',
+    description: 'Online courses for programmers covering web dev, data science, and machine learning.',
+    tags: ['Bootsrap'],
+    image: project2,
+    website: 'https://67ab133e456c5f95b0a2f384--vermillion-kelpie-1e3f99.netlify.app/'
   },
   {
-    title: 'UI Design',
-    description: 'Interface design web using Figma.',
-    bgImage: project3,
-    // link: 'https://www.figma.com/design/MonfvuPRs4FQ7wm8oAzJjG/Untitled?node-id=4-66&p=f&t=uO2a2SJy7hHNZikQ-0', 
+    title: 'Design Landing Page',
+    description: 'Guide to popular destinations, staycations and restaurants across Bali.',
+    tags: ['Figma'],
+    image: project3,
+    website: 'https://www.figma.com/design/MonfvuPRs4FQ7wm8oAzJjG/Untitled?node-id=4-66&t=DAn3kI2Tr8nRsAWl-0'
   },
   {
-    title: 'Game',
-    description: 'simple game using Scratch.',
-    bgImage: project4,
-    // link: 'https://scratch.mit.edu/projects/editor/?tutorial=getStarted', 
-  },
+    title: 'Simple Fish Game',
+    description: 'Showcasing Indonesia’s rich culture and arts from different regions.',
+    tags: ['Scratch'],
+    image: project4,
+    website: 'https://scratch.mit.edu/projects/editor/?tutorial=getStarted'
+  }
 ]
 
 const Work: React.FC = () => {
   return (
-    <div id='work' className='w-full px-[12%] py-10 scroll-mt-20 dark:bg-slate-800 text-white'>
-      <h4 className='text-center mb-2 text-lg font-Outfit'>My portfolio</h4>
-      <h2 className='text-center text-5xl font-Outfit'>My latest work</h2>
-      <p className='text-center max-w-2xl mx-auto mt-5 mb-12 font-Outfit'>
-        Welcome to my web development portofolio! Explore a collection of projects 
-        showcasing my expertise in front-end development.
-      </p>
+    <section id="work" className="w-full bg-muted/10 dark:bg-slate-800 pb-36 scroll-mt-28">
+      <div className="max-w-7xl mx-auto px-6 py-12">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl sm:text-4xl font-bold">My Project</h2>
+          <p className="mt-2 text-slate-600 dark:text-slate-300">
+            Here are some of the projects I have worked on recently.
+          </p>
+        </div>
 
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 my-10 gap-5'>
-        {workData.map((project, index) => (
-          <div
-            key={index}
-            className='aspect-square bg-no-repeat bg-cover bg-center rounded-lg relative cursor-pointer group'
-            style={{ backgroundImage: `url(${project.bgImage.src})` }}
-          >
-            <div className='bg-white w-10/12 shadow-lg rounded-md absolute bottom-5 left-1/2 -translate-x-1/2 py-3 px-5 flex items-center justify-between duration-500 group-hover:bottom-7'>
-              <div>
-                <h2 className='font-semibold text-gray-700 dark:text-slate-800'>{project.title}</h2>
-                <p className='text-sm text-gray-700'>{project.description}</p>
+        {/* 4 kolom di desktop, tetap responsif */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {projects.map((p, idx) => (
+            <article
+              key={idx}
+              className="rounded-2xl overflow-hidden border border-slate-200 dark:border-white/10
+                         bg-white dark:bg-slate-700 shadow-sm"
+            >
+              <div className="aspect-video relative">
+                <Image src={p.image} alt={p.title} fill className="object-cover" />
               </div>
-              <div className='border rounded-full border-black w-13 aspect-square flex items-center justify-center shadow-[2px_2px_0_#000] group-hover:bg-lime-300 transition'>
-                <Image src={sendIcon} alt='send icon' className='w-8' />
+              <div className="p-5">
+                <h3 className="font-semibold text-lg">{p.title}</h3>
+                {p.period && (
+                  <p className="text-sm text-slate-500 dark:text-slate-400 mt-0.5">{p.period}</p>
+                )}
+                <p className="mt-3 text-sm text-slate-700 dark:text-slate-300">{p.description}</p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {p.tags.map((t) => (
+                    <span
+                      key={t}
+                      className="text-xs rounded-full px-2.5 py-1 bg-slate-100 text-slate-700
+                                 dark:bg-white/10 dark:text-slate-100"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-5">
+                  <Link
+                    href={p.website}
+                    target="_blank"
+                    className="inline-flex items-center justify-center rounded-xl border
+                               px-3 py-2 text-sm font-medium bg-gray-600 text-white dark:bg-slate-800 hover:bg-slate-50
+                               dark:hover:bg-white/10 transition"
+                  >
+                    Website
+                  </Link>
+                </div>
               </div>
-            </div>
-          </div>
-        ))}
+            </article>
+          ))}
+        </div>
       </div>
-
-      <a href='#' className='w-max flex items-center justify-center gap-2 dark:bg-white text-gray-700 border-[0.5px] border-gray-700 rounded-full py-3 px-10 mx-auto my-20 hover:bg-violet-100 duration-500'>
-        Show more <Image src={rightArrowBold} alt='Right arrow' className='w-4' />
-      </a>
-    </div>
+    </section>
   )
 }
 

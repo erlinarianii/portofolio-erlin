@@ -44,14 +44,11 @@ const serviceData: Service[] = [
 
 const Services: React.FC = () => {
   return (
-    <div id='services' className='w-full px-[12%] py-10 scroll-mt-20 bg-white text-gray-800 dark:bg-slate-800 dark:text-white' >
-      <h4 className='text-center mb-2 text-lg font-Outfit dark:text-white text-gray-600'>What I offer</h4>
-      <h2 className='text-center text-5xl font-Outfit'>My Services</h2>
+    <div id='services' className='w-full px-[12%] py-10 pb-32 scroll-mt-20 bg-white text-gray-800 dark:bg-slate-800 dark:text-white' >
+      <h2 className='text-center text-5xl font-Outfit'>Things I Can Do</h2>
 
       <p className='text-center max-w-2xl mx-auto mt-5 mb-12 font-Outfit dark:text-white text-gray-600'>
-        I am a vocational high school student learning to become a
-        frontend developer. I enjoy building simple websites 
-        and I &apos; m always learning to get better at coding.
+        "Here are the main things I love to do — from building websites to designing clean user interfaces. I&apos;m always exploring and learning new tools to improve my work."
       </p>
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 dark:text-white my-10'>

@@ -1,31 +1,24 @@
-// page.tsx atau layout utama
-'use client'
-import React from 'react'
-
-// Import semua komponen
-
+// app/page.tsx
 import Header from './components/Header'
 import About from './components/About'
 import Services from './components/Services'
 import Work from './components/Work'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
-import Navbar from './components/Nabvar'
-import { Button } from "@/components/ui/button"
+import BlogPreview from './components/BlogPreview'  // preview 3 post
 
-const HomePage: React.FC = () => {
+export default function HomePage() {
   return (
-    <div className="min-h-screen bg-white text-gray-800">
-      
-     <Navbar />
-      <Header />
-      <About />
-      <Services />
-      <Work />
-      <Contact />
-      <Footer />
-    </div>
+    <main className="portfolio-page min-h-screen">
+      <section className="container-std pt-0">
+        <Header />
+        <About />
+        <Services />
+        <Work />
+        <BlogPreview />
+        <Contact />
+        <Footer />
+      </section>
+    </main>
   )
 }
-
-export default HomePage
