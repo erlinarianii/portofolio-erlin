@@ -19,28 +19,28 @@ type Project = {
 const projects: Project[] = [
   {
     title: 'Departement Website',
-    description: 'A platform for freelancers and clients to collaborate and find jobs with helpful filters.',
+    description: 'A department website for the school showcasing the profile, study programs, announcements/news, gallery, and contact info in a clean, accessible layout.',
     tags: ['React JS', 'Tailwind.css'],
     image: project1,
     website: 'https://web-profile-tkj.netlify.app/'
   },
   {
     title: 'Simpel Landing Page',
-    description: 'Online courses for programmers covering web dev, data science, and machine learning.',
+    description: 'A single-page promo for EYBEE honey featuring a bold hero image, key product benefits, and a prominent “View Our Package” call-to-action.',
     tags: ['Bootsrap'],
     image: project2,
     website: 'https://67ab133e456c5f95b0a2f384--vermillion-kelpie-1e3f99.netlify.app/'
   },
   {
     title: 'Design Landing Page',
-    description: 'Guide to popular destinations, staycations and restaurants across Bali.',
+    description: 'A trekking tour landing page for the Agung Trail Guide, highlighting package options, itinerary details, and a clear booking CTA.',
     tags: ['Figma'],
     image: project3,
     website: 'https://www.figma.com/design/MonfvuPRs4FQ7wm8oAzJjG/Untitled?node-id=4-66&t=DAn3kI2Tr8nRsAWl-0'
   },
   {
     title: 'Simple Fish Game',
-    description: 'Showcasing Indonesia’s rich culture and arts from different regions.',
+    description: 'A Scratch-based mini game: steer a fish and avoid hazards; collisions trigger a “YOU LOSE” screen—quick, casual gameplay.',
     tags: ['Scratch'],
     image: project4,
     website: 'https://scratch.mit.edu/projects/editor/?tutorial=getStarted'

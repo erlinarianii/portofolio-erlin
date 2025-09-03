@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 import Image from 'next/image'
 import rightArrowWhite from '@/app/assets/right-arrow-white.png'
-import bgImage from '@/app/assets/public/footer-bg-color.png'
 
 const Contact: React.FC = () => {
   const [result, setResult] = useState<string>('')

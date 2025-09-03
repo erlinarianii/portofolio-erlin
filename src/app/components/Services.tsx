@@ -2,7 +2,7 @@
 import React from 'react'
 import Image, { StaticImageData } from 'next/image'
 
-// Import icon satu per satu
+
 import frontendIcon from '@/app/assets/web-icon.png'
 import uiuxIcon from '@/app/assets/mobile-icon.png'
 import figmaIcon from '@/app/assets/ui-icon.png'
@@ -48,7 +48,7 @@ const Services: React.FC = () => {
       <h2 className='text-center text-5xl font-Outfit'>Things I Can Do</h2>
 
       <p className='text-center max-w-2xl mx-auto mt-5 mb-12 font-Outfit dark:text-white text-gray-600'>
-        "Here are the main things I love to do — from building websites to designing clean user interfaces. I&apos;m always exploring and learning new tools to improve my work."
+        &quot;Here are the main things I love to do — from building websites to designing clean user interfaces. I&apos;m always exploring and learning new tools to improve my work.&quot;
       </p>
 
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 dark:text-white my-10'>

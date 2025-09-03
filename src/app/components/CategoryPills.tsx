@@ -1,29 +1,48 @@
 "use client";
+
 import Link from "next/link";
 
-export default function CategoryPills({
-  items,
-}: {
-  items: { name: string; slug?: string; count?: number }[];
-}) {
+type CategoryItem = {
+  name: string;
+  slug?: string;
+  count?: number;
+  href?: string;
+};
+
+type Props = {
+  items: CategoryItem[];
+};
+
+export default function CategoryPills({ items }: Props) {
   return (
     <div className="flex flex-wrap gap-3">
       {items.map((c, i) => {
-        const Comp: any = c.slug ? Link : "span";
-        const props = c.slug ? { href: `/blog?category=${c.slug}` } : {};
-        return (
-          <Comp
-            key={i}
-            {...props}
-            className="px-3 py-1.5 rounded-full bg-gray-700 dark:bg-slate-700 text-white dark:hover:bg-gray-600 hover:bg-gray-600 transition"
-          >
+        const href =
+          c.href ??
+          (c.slug ? `/blog?category=${encodeURIComponent(c.slug)}` : undefined);
+
+        const pillClasses =
+          "inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full " +
+          "bg-gray-700 text-white hover:bg-gray-600 transition " +
+          "dark:bg-slate-700 dark:hover:bg-gray-600";
+
+        const countBadge =
+          typeof c.count === "number" ? (
+            <span className="ml-1 rounded-full px-2 py-0.5 text-xs bg-gray-800/70 dark:bg-slate-800/70">
+              {c.count}
+            </span>
+          ) : null;
+
+        return href ? (
+          <Link key={i} href={href} className={pillClasses}>
             {c.name}
-            {typeof c.count === "number" && (
-              <span className="ml-1 rounded-full bg-gray-700 dark:bg-slate-700 dark:hover:bg-gray-600f hover:bg-gray-600 px-2 py-0.5 text-xs ring-2 ring-border">
-                {c.count}
-              </span>
-            )}
-          </Comp>
+            {countBadge}
+          </Link>
+        ) : (
+          <span key={i} className={pillClasses}>
+            {c.name}
+            {countBadge}
+          </span>
         );
       })}
     </div>
